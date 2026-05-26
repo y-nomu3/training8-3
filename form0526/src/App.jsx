@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { validateField } from "./utils/validation";
+import { validateField, getPasswordStrength } from "./utils/validation";
+import PasswordStrength from "./components/PasswordStrength";
 
 function App() {
 
@@ -32,6 +33,8 @@ function App() {
     });
   };
 
+  const passwordStrength = getPasswordStrength(formData.password);
+
   return (
     <div>
       <h1>フォーム管理</h1>
@@ -62,6 +65,7 @@ function App() {
           value={formData.password}
           onChange={handleChange}
         />
+        <PasswordStrength strength={passwordStrength} />
         <p>{errors.password}</p>
 
         <label>
