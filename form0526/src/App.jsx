@@ -16,22 +16,49 @@ function App() {
     name: "",
     email: "",
     password: "",
+    agree: "",
   });
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
 
+    const inputValue =
+      type === "checkbox" ? checked : value;
+
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: inputValue,
     });
 
-    const errorMessage = validateField(name, value);
+    const errorMessage = validateField(name, inputValue);
 
     setErrors({
       ...errors,
       [name]: errorMessage,
     });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const newErrors = {
+      name: validateField("name", formData.name),
+      email: validateField("email", formData.email),
+      password: validateField("password", formData.password),
+      agree: validateField("agree", formData.agree),
+    };
+
+    setErrors(newErrors);
+
+    const hasError = object.values(newErrors).some(
+      (error) = error !== ""
+    );
+
+    if (hasError) {
+      return;
+    }
+
+    console.log("送信成功", formData);
   };
 
   const passwordStrength = getPasswordStrength(formData.password);
@@ -40,7 +67,7 @@ function App() {
     <div>
       <h1>フォーム管理</h1>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <InputField
           label="名前"
           type="text"
@@ -67,7 +94,6 @@ function App() {
           onChange={handleChange}
           error={errors.password}
         />
-
         <PasswordStrength strength={passwordStrength} />
 
         <label>
@@ -79,6 +105,7 @@ function App() {
           />
           利用規約に同意する
         </label>
+        <p>{errors.agree}</p>
 
         <button type="submit">
           送信
