@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { validateField } from "./utils/validation";
 
 function App() {
 
@@ -9,12 +10,25 @@ function App() {
     agree: false,
   });
 
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
 
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
+    });
+
+    const errorMessage = validateField(name, value);
+
+    setErrors({
+      ...errors,
+      [name]: errorMessage,
     });
   };
 
@@ -30,6 +44,7 @@ function App() {
           value={formData.name}
           onChange={handleChange}
         />
+        <p>{errors.name}</p>
 
         <label>メールアドレス</label>
         <input
@@ -38,6 +53,7 @@ function App() {
           value={formData.email}
           onChange={handleChange}
         />
+        <p>{errors.email}</p>
 
         <label>パスワード</label>
         <input
@@ -46,6 +62,7 @@ function App() {
           value={formData.password}
           onChange={handleChange}
         />
+        <p>{errors.password}</p>
 
         <label>
           <input
