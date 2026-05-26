@@ -16,7 +16,7 @@ export const validateField = (name, value) => {
             if (!emailRegex.test(value)) {
                 return "メールアドレスの形式が正しくありません";
             }
-            
+
             return "";
 
         case "password":
@@ -35,15 +35,49 @@ export const validateField = (name, value) => {
             if (!hasUppercase) {
                 return "大文字を含めてください";
             }
-            
+
             if (!hasNumber) {
                 return "数字を含めてください";
             }
-            
+
             return "";
 
         default:
             return "";
 
     }
+};
+
+export const getPasswordStrength = (password) => {
+    const hasLowercase = /[a-z]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSymbol = /[^A-Za-z0-9]/.test(password);
+
+    const length = password.length;
+
+    if (
+        length >= 12 &&
+        hasLowercase &&
+        hasUppercase &&
+        hasNumber &&
+        hasSymbol
+    ) {
+        return "strong";
+    }
+
+    if (
+        length >= 8 &&
+        hasLowercase &&
+        hasUppercase &&
+        hasNumber
+    ) {
+        return "medium";
+    }
+
+    if (password.length > 0) {
+        return "weak";
+    }
+
+    return "";
 };
