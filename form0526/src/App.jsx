@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { validateField, getPasswordStrength } from "./utils/validation";
 import PasswordStrength from "./components/PasswordStrength";
+import InputField from "./components/InputField";
 
 function App() {
 
@@ -40,33 +41,34 @@ function App() {
       <h1>フォーム管理</h1>
 
       <form>
-        <label>名前</label>
-        <input
+        <InputField
+          label="名前"
           type="text"
           name="name"
           value={formData.name}
           onChange={handleChange}
+          error={errors.name}
         />
-        <p>{errors.name}</p>
 
-        <label>メールアドレス</label>
-        <input
+        <InputField
+          label="メールアドレス"
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
+          error={errors.email}
         />
-        <p>{errors.email}</p>
 
-        <label>パスワード</label>
-        <input
+        <InputField
+          label="パスワード"
           type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
+          error={errors.password}
         />
+
         <PasswordStrength strength={passwordStrength} />
-        <p>{errors.password}</p>
 
         <label>
           <input
