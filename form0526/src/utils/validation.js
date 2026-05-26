@@ -42,6 +42,13 @@ export const validateField = (name, value) => {
 
             return "";
 
+            case "agree":
+                if (!value) {
+                    return "利用規約への同意が必要です";
+                }
+
+            return "";
+            
         default:
             return "";
 
